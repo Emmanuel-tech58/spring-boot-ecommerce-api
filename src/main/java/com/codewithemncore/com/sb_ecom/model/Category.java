@@ -5,9 +5,13 @@ public class Category {
     private Long Id;
     private String name;
 
-    public Category(Long id, String name) {
-        Id = id;
+    public Category(Long Id, String name) {
+        this.Id = Id;
         this.name = name;
+    }
+
+    public void setId(Long Id) {
+        this.Id = Id;
     }
 
     public Long getId() {

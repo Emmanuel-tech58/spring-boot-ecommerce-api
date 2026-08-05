@@ -1,30 +1,33 @@
 package com.codewithemncore.com.sb_ecom.controller;
 
 import com.codewithemncore.com.sb_ecom.model.Category;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import com.codewithemncore.com.sb_ecom.service.interfaces.CategoryServiceInterface;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 public class CategoryController {
 
-    private final List<Category> categories;
+    private final CategoryServiceInterface categoryService;
 
-    public CategoryController(List<Category> categories) {
-        this.categories = categories;
+    public CategoryController(CategoryServiceInterface categoryService) {
+        this.categoryService = categoryService;
     }
 
     @GetMapping("/api/public/categories")
     public List<Category> getAllCategories(){
-        return categories;
+        return categoryService.getAllCategories();
     }
 
     @PostMapping("/api/public/categories")
     public String createCategory(@RequestBody Category category){
-        categories.add(category);
+        categoryService.createCategory(category);
         return "Category " + category.getName() + " created successfully";
+    }
+
+    @DeleteMapping("/api/admin/categories/{id}")
+    public String deleteCategory(@PathVariable Long id){
+        return categoryService.deleteCategory(id);
     }
 }
