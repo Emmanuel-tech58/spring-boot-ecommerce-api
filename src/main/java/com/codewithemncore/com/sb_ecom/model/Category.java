@@ -1,28 +1,21 @@
 package com.codewithemncore.com.sb_ecom.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity(name = "categories")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Category {
 
-    private Long Id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
-
-    public Category(Long Id, String name) {
-        this.Id = Id;
-        this.name = name;
-    }
-
-    public void setId(Long Id) {
-        this.Id = Id;
-    }
-
-    public Long getId() {
-        return Id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }

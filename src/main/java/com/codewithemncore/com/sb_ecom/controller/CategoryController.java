@@ -10,6 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class CategoryController {
 
     private final CategoryServiceInterface categoryService;
@@ -18,7 +19,7 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
-    @GetMapping("/api/public/categories")
+    @GetMapping("/public/categories")
     public ResponseEntity<?> getAllCategories(){
         try{
             List<Category> categories = categoryService.getAllCategories();
@@ -29,7 +30,7 @@ public class CategoryController {
 
     }
 
-    @PostMapping("/api/public/categories")
+    @PostMapping("/public/categories")
     public ResponseEntity<String> createCategory(@RequestBody Category category){
         try{
             categoryService.createCategory(category);
@@ -40,7 +41,7 @@ public class CategoryController {
 
     }
 
-    @DeleteMapping("/api/admin/categories/{id}")
+    @DeleteMapping("/admin/categories/{id}")
     public ResponseEntity<String> deleteCategory(@PathVariable Long id){
         try{
             return new ResponseEntity<>(categoryService.deleteCategory(id), HttpStatus.OK);
@@ -49,10 +50,10 @@ public class CategoryController {
         }
     }
 
-    @PutMapping("/api/admin/categories")
-    public ResponseEntity<String> updateCategory(@RequestBody Category category){
+    @PutMapping("/admin/categories/{id}")
+    public ResponseEntity<?> updateCategory(@RequestBody Category category, @PathVariable Long id){
         try{
-            return ResponseEntity.ok(categoryService.updateCategory(category));
+            return ResponseEntity.ok(categoryService.updateCategory(category, id));
         }catch (ResponseStatusException e){
             return new ResponseEntity<>(e.getReason(), e.getStatusCode()) ;
         }
