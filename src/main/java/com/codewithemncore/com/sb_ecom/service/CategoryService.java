@@ -39,7 +39,7 @@ public class CategoryService implements CategoryServiceInterface {
     @Override
     public Category updateCategory(Category category, Long id) {
 
-        Category savedCategory = categoryRepository.findById(category.getId())
+        Category savedCategory = categoryRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No category with Id " + id + " Exists"));
 
         category.setId(savedCategory.getId());
