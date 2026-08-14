@@ -2,7 +2,10 @@ package com.codewithemncore.com.sb_ecom.repositories;
 
 import com.codewithemncore.com.sb_ecom.model.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-public interface CategoryRepository extends JpaRepository<Category, Long> {
+import java.util.Optional;
 
+public interface CategoryRepository extends JpaRepository<Category, Long>, JpaSpecificationExecutor<Category> {
+    Optional<Category> findByNameIgnoreCase(String name);
 }

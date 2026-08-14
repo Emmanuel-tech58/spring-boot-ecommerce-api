@@ -9,10 +9,9 @@ import org.hibernate.annotations.SQLRestriction;
 import java.time.LocalDateTime;
 
 @MappedSuperclass
-@Getter
-@Setter
+@Getter @Setter
 @SQLDelete(sql = "UPDATE #{#entityName} SET deleted_at = NOW(), is_deleted = true WHERE id = ?")
-@SQLRestriction("deleted_at = false")
+@SQLRestriction("is_deleted = false")
 public class SoftDeletableEntity extends AuditableEntity{
     private boolean isDeleted = false;
     private LocalDateTime deletedAt;

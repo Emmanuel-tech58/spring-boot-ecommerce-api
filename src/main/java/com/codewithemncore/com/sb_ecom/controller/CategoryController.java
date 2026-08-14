@@ -1,61 +1,51 @@
 package com.codewithemncore.com.sb_ecom.controller;
 
-import com.codewithemncore.com.sb_ecom.model.Category;
+import com.codewithemncore.com.sb_ecom.dto.category.CategoryCreateDTO;
+import com.codewithemncore.com.sb_ecom.dto.category.CategoryReadDTO;
+import com.codewithemncore.com.sb_ecom.dto.category.CategoryUpdateDTO;
 import com.codewithemncore.com.sb_ecom.service.interfaces.CategoryServiceInterface;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/categories")
+@RequiredArgsConstructor
 public class CategoryController {
 
     private final CategoryServiceInterface categoryService;
 
-    public CategoryController(CategoryServiceInterface categoryService) {
-        this.categoryService = categoryService;
+    @PostMapping
+    public ResponseEntity<CategoryReadDTO> create(@Valid @RequestBody CategoryCreateDTO createRequest){
+        CategoryReadDTO category = categoryService.create(createRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(category);
     }
 
-    @GetMapping("/public/categories")
-    public ResponseEntity<?> getAllCategories(){
-        try{
-            List<Category> categories = categoryService.getAllCategories();
-            return ResponseEntity.ok(categories);
-        }catch (Exception e){
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
+    @PutMapping("/{id}")
+    public ResponseEntity<CategoryReadDTO> update(@PathVariable Long id, @Valid @RequestBody CategoryUpdateDTO updateBody){
+        CategoryReadDTO category = categoryService.updated(id, updateBody);
+        return ResponseEntity.status(HttpStatus.OK).body(category);
     }
 
-    @PostMapping("/public/categories")
-    public ResponseEntity<String> createCategory(@RequestBody Category category){
-        try{
-            categoryService.createCategory(category);
-            return new ResponseEntity<>("Category " + category.getName() + " created successfully", HttpStatus.CREATED);
-        }catch (Exception e){
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
+    @GetMapping("/{id}")
+    public ResponseEntity<CategoryReadDTO> getById(@PathVariable Long id){
+        CategoryReadDTO category = categoryService.getById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(category);
     }
 
-    @DeleteMapping("/admin/categories/{id}")
-    public ResponseEntity<String> deleteCategory(@PathVariable Long id){
-        try{
-            return new ResponseEntity<>(categoryService.deleteCategory(id), HttpStatus.OK);
-        }catch (ResponseStatusException e){
-            return new ResponseEntity<>(e.getReason(), e.getStatusCode()) ;
-        }
+    @GetMapping
+    public ResponseEntity<List<CategoryReadDTO>> gateAll(){
+        List<CategoryReadDTO> categories = categoryService.getAll();
+        return ResponseEntity.status(HttpStatus.OK).body(categories);
     }
 
-    @PutMapping("/admin/categories/{id}")
-    public ResponseEntity<?> updateCategory(@RequestBody Category category, @PathVariable Long id){
-        try{
-            return ResponseEntity.ok(categoryService.updateCategory(category, id));
-        }catch (ResponseStatusException e){
-            return new ResponseEntity<>(e.getReason(), e.getStatusCode()) ;
-        }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> delete(@PathVariable Long id) {
+        categoryService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }
