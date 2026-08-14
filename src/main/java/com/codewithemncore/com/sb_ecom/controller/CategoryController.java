@@ -3,9 +3,12 @@ package com.codewithemncore.com.sb_ecom.controller;
 import com.codewithemncore.com.sb_ecom.dto.category.CategoryCreateDTO;
 import com.codewithemncore.com.sb_ecom.dto.category.CategoryReadDTO;
 import com.codewithemncore.com.sb_ecom.dto.category.CategoryUpdateDTO;
+import com.codewithemncore.com.sb_ecom.dto.common.PageRequestParams;
 import com.codewithemncore.com.sb_ecom.service.interfaces.CategoryServiceInterface;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -47,5 +50,17 @@ public class CategoryController {
     public ResponseEntity<String> delete(@PathVariable Long id) {
         categoryService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/paged")
+    public ResponseEntity<Page<CategoryReadDTO>> getPAged(
+            @RequestParam(defaultValue = "1") int pageNumber,
+            @RequestParam(defaultValue = "10") int pageSize,
+            @RequestParam(required = false) String searchTerm,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "ASC") Sort.Direction sortDirection ){
+
+        var params = new PageRequestParams(pageNumber, pageSize, searchTerm, sortBy, sortDirection);
+        return ResponseEntity.ok(categoryService.getPaged(params));
     }
 }

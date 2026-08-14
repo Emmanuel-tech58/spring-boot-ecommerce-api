@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleGeneric(ResourceNotFoundException ex, HttpServletRequest req){
+    public ResponseEntity<ErrorResponse> handleGeneric(Exception ex, HttpServletRequest req){
         log.error("Unhandled exception at {}", req.getRequestURI(), ex);
         return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred", req);
     }

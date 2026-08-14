@@ -3,6 +3,7 @@ package com.codewithemncore.com.sb_ecom.service.interfaces;
 import com.codewithemncore.com.sb_ecom.dto.category.CategoryCreateDTO;
 import com.codewithemncore.com.sb_ecom.dto.category.CategoryReadDTO;
 import com.codewithemncore.com.sb_ecom.dto.category.CategoryUpdateDTO;
+import com.codewithemncore.com.sb_ecom.dto.common.PageRequestParams;
 import com.codewithemncore.com.sb_ecom.model.Category;
 import org.springframework.data.domain.Page;
 
@@ -14,5 +15,5 @@ public interface CategoryServiceInterface {
     public void delete(Long id);
     List<CategoryReadDTO> getAll();
     CategoryReadDTO getById(Long id);
-    Page<CategoryReadDTO> getPaged(int pageNumber, int pageSize, String searchTerm);
+    Page<CategoryReadDTO> getPaged(PageRequestParams params);
 }

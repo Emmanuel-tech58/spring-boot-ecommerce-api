@@ -1,10 +1,7 @@
 package com.codewithemncore.com.sb_ecom.model;
 
-import com.codewithemncore.com.sb_ecom.model.base.SoftDeletableEntity;
+import com.codewithemncore.com.sb_ecom.model.base.AuditableEntity;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Category extends SoftDeletableEntity {
+public class Category extends AuditableEntity {
     private String name;
 }

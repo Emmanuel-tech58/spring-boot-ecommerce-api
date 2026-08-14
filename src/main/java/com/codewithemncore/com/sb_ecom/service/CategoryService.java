@@ -3,11 +3,12 @@ package com.codewithemncore.com.sb_ecom.service;
 import com.codewithemncore.com.sb_ecom.dto.category.CategoryCreateDTO;
 import com.codewithemncore.com.sb_ecom.dto.category.CategoryReadDTO;
 import com.codewithemncore.com.sb_ecom.dto.category.CategoryUpdateDTO;
+import com.codewithemncore.com.sb_ecom.dto.common.PageRequestParams;
 import com.codewithemncore.com.sb_ecom.exception.DuplicateResourceException;
 import com.codewithemncore.com.sb_ecom.exception.ResourceNotFoundException;
 import com.codewithemncore.com.sb_ecom.mapper.CategoryMapper;
 import com.codewithemncore.com.sb_ecom.model.Category;
-import com.codewithemncore.com.sb_ecom.repositories.CategoryRepository;
+import com.codewithemncore.com.sb_ecom.repositories.softdeletable.CategoryRepository;
 import com.codewithemncore.com.sb_ecom.repositories.specification.CategorySpecification;
 import com.codewithemncore.com.sb_ecom.service.interfaces.CategoryServiceInterface;
 import lombok.RequiredArgsConstructor;
@@ -16,13 +17,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -79,12 +77,14 @@ public class CategoryService implements CategoryServiceInterface{
 
     @Override
     @Transactional(readOnly = true)
-    public Page<CategoryReadDTO> getPaged(int pageNumber, int pageSize, String searchTerm) {
+    public Page<CategoryReadDTO> getPaged(PageRequestParams params) {
         Specification<Category> spec = Specification
-                .where(CategorySpecification.nameContains(searchTerm))
-                .and(CategorySpecification.isActive());
+                .where(CategorySpecification.nameContains(params.searchTerm()));
 
-        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("name").ascending());
+        Pageable pageable = PageRequest.of(
+                params.pageNumber() - 1,
+                params.pageSize(),
+                Sort.by(params.sortDirection(), params.sortBy()));
 
         return categoryRepository.findAll(spec, pageable).map(categoryMapper::toDto);
     }
