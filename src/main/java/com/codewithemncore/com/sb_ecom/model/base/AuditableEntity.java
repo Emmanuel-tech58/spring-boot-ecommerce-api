@@ -36,12 +36,12 @@ public class AuditableEntity extends BaseEntity{
     @Column(nullable = false)
     private EntityStatus status = EntityStatus.ACTIVE;
 
-    private LocalDateTime statusChangeAt;
+    private LocalDateTime statusChangedAt;
     private Long statusChangedById;
 
     public void changeStatus(EntityStatus newStatus, Long statusChangedById){
         this.status = newStatus;
-        this.statusChangeAt = LocalDateTime.now();
+        this.statusChangedAt = LocalDateTime.now();
         this.statusChangedById = statusChangedById;
     }
 }
