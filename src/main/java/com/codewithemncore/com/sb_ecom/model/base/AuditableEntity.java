@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 @Getter @Setter
 @SQLRestriction("status <> 'DELETED'")
-public class AuditableEntity extends BaseEntity{
+public class AuditableEntity<ID> extends BaseEntity<ID> {
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createdAt;

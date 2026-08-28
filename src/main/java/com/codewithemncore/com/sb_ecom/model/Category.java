@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Category extends AuditableEntity {
+public class Category extends AuditableEntity<Long> {
     private String name;
 }

@@ -8,9 +8,7 @@ import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.Serializable;
-
-public class SoftDeleteRepositoryImpl<T extends AuditableEntity, ID extends Serializable>
+public class SoftDeleteRepositoryImpl<T extends AuditableEntity<ID>, ID>
         extends SimpleJpaRepository<T, ID>
         implements SoftDeleteRepository<T, ID>
 {
