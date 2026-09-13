@@ -3,7 +3,7 @@ security:
         refresh-token-ttl: P30D
     jwt:
         access-token-ttl: PT15M
-        secret: ${JWT_SECRET:local-dev-secret-change-in-production-must-be-at-least-256-bits}
+        secret: ${JWT_SECRET:bG9jYWwtZGV2LXNlY3JldC1mb3ItZGV2ZWxvcG1lbnQtb25seS1jaGFuZ2UtaW4tcHJvZHVjdGlvbgo=}
 spring:
     application:
         name: sb-ecom
