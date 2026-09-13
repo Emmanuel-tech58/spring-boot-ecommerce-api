@@ -1,11 +1,17 @@
 # Architecture Notes
 
 ## Base entity hierarchy
-- BaseEntity: id only
-- AuditableEntity: audit fields (createdAt/By, updatedAt/By) + status enum
+- BaseEntity<ID>: generic id only; concrete entities choose their identifier
+  type (for example `Long` or `UUID`)
+- AuditableEntity<ID>: audit fields (createdAt/By, updatedAt/By) + status enum
   (ACTIVE/DISABLED/FROZEN/DELETED) replacing a separate soft-delete boolean
 - Why: status enum avoids invalid boolean combinations, models real business
   states (frozen/disabled) beyond just deleted
+- The generic type makes repository and model ID types explicit. JPA does not
+  select a generator from that generic type: the inherited base uses identity
+  generation for numeric entities, while UUID entities declare
+  `GenerationType.UUID` directly and use a matching column type such as
+  `BINARY(16)`.
 
 ## Soft delete
 - @SQLRestriction("status <> 'DELETED'") on AuditableEntity — applies to
