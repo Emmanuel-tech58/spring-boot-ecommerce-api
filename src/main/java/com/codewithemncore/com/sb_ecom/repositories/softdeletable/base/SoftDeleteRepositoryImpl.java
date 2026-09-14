@@ -48,7 +48,6 @@ public class SoftDeleteRepositoryImpl<T extends AuditableEntity<ID>, ID>
         findById(id).ifPresent(this::delete);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     @Transactional
     public void deleteAllById(@NonNull Iterable<? extends ID> ids) {

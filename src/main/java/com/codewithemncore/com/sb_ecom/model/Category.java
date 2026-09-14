@@ -2,11 +2,9 @@ package com.codewithemncore.com.sb_ecom.model;
 
 import com.codewithemncore.com.sb_ecom.model.base.AuditableEntity;
 import jakarta.persistence.Entity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity(name = "categories")
 @Data
 @NoArgsConstructor
