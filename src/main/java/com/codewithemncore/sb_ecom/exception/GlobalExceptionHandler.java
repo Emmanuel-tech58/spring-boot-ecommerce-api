@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.security.authorization.AuthorizationDeniedException;
+import org.springframework.security.access.AccessDeniedException;
 
 import java.time.Instant;
 import java.util.stream.Collectors;
@@ -113,6 +115,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErrorResponse> handleUnreadableBody(HttpMessageNotReadableException ex, HttpServletRequest req) {
         return buildResponse(HttpStatus.BAD_REQUEST, "Malformed or unreadable request body", req);
+    }
+
+    /**
+     * Handles Spring Security authorization failures (@PreAuthorize, @Secured, etc.) — returns 403.
+     */
+    @ExceptionHandler({AuthorizationDeniedException.class, AccessDeniedException.class})
+    public ResponseEntity<ErrorResponse> handleAccessDenied(Exception ex, HttpServletRequest req) {
+        log.warn("Access denied at {}: {}", req.getRequestURI(), ex.getMessage());
+        return buildResponse(HttpStatus.FORBIDDEN, "You do not have permission to access this resource", req);
     }
 
     @ExceptionHandler(Exception.class)
