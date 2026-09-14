@@ -2,7 +2,6 @@ package com.codewithemncore.com.sb_ecom.service;
 
 import com.codewithemncore.com.sb_ecom.config.AppProperties;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -15,7 +14,6 @@ import java.time.Year;
  */
 @Service
 @RequiredArgsConstructor
-@EnableConfigurationProperties(AppProperties.class)
 public class EmailTemplateService {
 
     private final TemplateEngine templateEngine;

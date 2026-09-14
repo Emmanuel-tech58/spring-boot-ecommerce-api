@@ -41,7 +41,7 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CategoryReadDTO>> gateAll(){
+    public ResponseEntity<List<CategoryReadDTO>> getAll() {
         List<CategoryReadDTO> categories = categoryService.getAll();
         return ResponseEntity.status(HttpStatus.OK).body(categories);
     }
@@ -53,7 +53,7 @@ public class CategoryController {
     }
 
     @GetMapping("/paged")
-    public ResponseEntity<Page<CategoryReadDTO>> getPAged(
+    public ResponseEntity<Page<CategoryReadDTO>> getPaged(
             @RequestParam(defaultValue = "1") int pageNumber,
             @RequestParam(defaultValue = "10") int pageSize,
             @RequestParam(required = false) String searchTerm,

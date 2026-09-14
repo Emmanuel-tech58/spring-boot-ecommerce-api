@@ -9,12 +9,10 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.retry.RejectAndDontRequeueRecoverer;
 import org.springframework.amqp.support.converter.JacksonJsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@EnableConfigurationProperties(RabbitMQProperties.class)
 @RequiredArgsConstructor
 public class RabbitMQConfig {
 
@@ -54,7 +52,7 @@ public class RabbitMQConfig {
         return QueueBuilder
                 .durable(props.email().queues().welcome().name())
                 .withArgument("x-dead-letter-exchange", props.email().deadLetter().exchange())
-                .withArgument("x-dead-letter-exchange", props.email().deadLetter().routingKey())
+                .withArgument("x-dead-letter-routing-key", props.email().deadLetter().routingKey())
                 .build();
     }
 
@@ -63,7 +61,7 @@ public class RabbitMQConfig {
         return QueueBuilder
                 .durable(props.email().queues().passwordReset().name())
                 .withArgument("x-dead-letter-exchange", props.email().deadLetter().exchange())
-                .withArgument("x-dead-letter-exchange", props.email().deadLetter().routingKey())
+                .withArgument("x-dead-letter-routing-key", props.email().deadLetter().routingKey())
                 .build();
     }
 
@@ -72,7 +70,7 @@ public class RabbitMQConfig {
         return QueueBuilder
                 .durable(props.email().queues().notification().name())
                 .withArgument("x-dead-letter-exchange", props.email().deadLetter().exchange())
-                .withArgument("x-dead-letter-exchange", props.email().deadLetter().routingKey())
+                .withArgument("x-dead-letter-routing-key", props.email().deadLetter().routingKey())
                 .build();
     }
 

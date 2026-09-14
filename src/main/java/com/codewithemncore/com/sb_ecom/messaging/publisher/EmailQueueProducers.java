@@ -5,12 +5,10 @@ import com.codewithemncore.com.sb_ecom.messaging.payload.EmailPayload;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-@EnableConfigurationProperties(RabbitMQProperties.class)
 @AllArgsConstructor
 public class EmailQueueProducers {
 

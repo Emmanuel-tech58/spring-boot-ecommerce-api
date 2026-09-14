@@ -1,5 +1,6 @@
 package com.codewithemncore.com.sb_ecom.service;
 
+import com.codewithemncore.com.sb_ecom.config.AppProperties;
 import com.codewithemncore.com.sb_ecom.dto.auth.*;
 import com.codewithemncore.com.sb_ecom.messaging.payload.EmailPayload;
 import com.codewithemncore.com.sb_ecom.messaging.publisher.EmailQueueProducers;
@@ -9,6 +10,7 @@ import com.codewithemncore.com.sb_ecom.model.auth.UserPrincipal;
 import com.codewithemncore.com.sb_ecom.repositories.plain.RoleRepository;
 import com.codewithemncore.com.sb_ecom.repositories.plain.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,7 +22,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Locale;
 
-@Service @RequiredArgsConstructor
+@Service
+@RequiredArgsConstructor
+@EnableConfigurationProperties(AppProperties.class)
 public class AuthService {
 
     private final UserRepository users;
@@ -31,6 +35,7 @@ public class AuthService {
     private final RefreshTokenService refreshTokens;
     private final EmailQueueProducers emailProducers;
     private final EmailTemplateService emailTemplateService;
+    private final AppProperties appProps;
 
     @Transactional
     public UserResponse register(RegisterRequest request) {
@@ -61,7 +66,7 @@ public class AuthService {
         emailProducers.sendWelcomeEmail(new EmailPayload(
                 saved.getEmail(),
                 null,
-                "Welcome to " + saved.getFirstName() + "!",
+                "Welcome to " + appProps.name() + "!",
                 html
         ));
 

@@ -1,12 +1,11 @@
 package com.codewithemncore.com.sb_ecom.exception;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 public record ErrorResponse(
-        LocalDateTime timestamp,
+        Instant timestamp,
         int status,
         String error,
         String message,
         String path
-) {
-}
+) {}
